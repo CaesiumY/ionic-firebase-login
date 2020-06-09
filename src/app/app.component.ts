@@ -6,7 +6,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import * as firebase from "firebase/app";
-import "firebase/auth";
+// import "firebase/auth";
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -33,14 +33,13 @@ export class MyApp {
     splashScreen: SplashScreen
   ) {
     platform.ready().then(() => {
-      firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
 
+    firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
