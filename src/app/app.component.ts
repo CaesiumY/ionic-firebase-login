@@ -5,7 +5,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
-import * as firebase from "firebase/app";
+import * as firebase from "firebase";
 // import "firebase/auth";
 
 // Your web app's Firebase configuration
@@ -40,7 +40,7 @@ export class MyApp {
     });
 
     firebase.initializeApp(firebaseConfig);
-    firebase.auth().onAuthStateChanged(function (user) {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
         this.rootPage = HomePage;
