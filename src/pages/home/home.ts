@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController } from "ionic-angular";
+import { NavController, AlertController } from "ionic-angular";
 import * as firebase from "firebase";
 
 @Component({
@@ -7,19 +7,41 @@ import * as firebase from "firebase";
   templateUrl: "home.html",
 })
 export class HomePage {
-  constructor(public navCtrl: NavController) {}
+  constructor(
+    public navCtrl: NavController,
+    private alerCtrl: AlertController
+  ) {}
 
   logout() {
-    firebase
-      .auth()
-      .signOut()
-      .then(function () {
-        // Sign-out successful.
-        console.log("logout successfully");
-      })
-      .catch(function (error) {
-        // An error happened.
-        console.log("HomePage -> logout -> error", error);
-      });
+    let confirm = this.alerCtrl.create({
+      title: "Log out",
+      message: "로그아웃 하시겠습니까?",
+      buttons: [
+        {
+          text: "아니오",
+          handler: () => {
+            console.log("logout disagreed");
+          },
+        },
+        {
+          text: "예",
+          handler: () => {
+            firebase
+              .auth()
+              .signOut()
+              .then(() => {
+                // Sign-out successful.
+                console.log("logout successfully");
+              })
+              .catch((error) => {
+                // An error happened.
+                console.log("HomePage -> logout -> error", error);
+              });
+          },
+        },
+      ],
+    });
+
+    confirm.present();
   }
 }
