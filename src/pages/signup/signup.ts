@@ -33,6 +33,21 @@ export class SignupPage {
       .createUserWithEmailAndPassword(this.account.email, this.account.password)
       .then((result) => {
         console.log("SignupPage -> signup -> result", result);
+        var user = firebase.auth().currentUser;
+
+        user
+          .updateProfile({
+            displayName: this.account.name,
+            photoURL: "",
+          })
+          .then(() => {
+            // Update successful.
+            console.log("Update successful");
+          })
+          .catch((error) => {
+            // An error happened.
+            console.log("SignupPage -> signup -> error", error);
+          });
       })
       .catch((error) => {
         // Handle Errors here.
