@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { SignupPage } from "../signup/signup";
+import * as firebase from "firebase";
 
 /**
  * Generated class for the LoginPage page.
@@ -26,7 +27,25 @@ export class LoginPage {
     console.log("ionViewDidLoad LoginPage");
   }
 
-  login() {}
+  login() {
+    console.log("login");
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.account.email, this.account.password)
+      .then((result) => {
+        console.log("LoginPage -> login -> result", result);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(
+          "SignupPage -> signup -> errorCode",
+          errorCode,
+          errorMessage
+        );
+      });
+  }
   signup() {
     this.navCtrl.push(SignupPage);
   }
