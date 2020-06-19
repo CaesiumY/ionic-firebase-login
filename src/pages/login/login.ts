@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { SignupPage } from "../signup/signup";
 import * as firebase from "firebase";
+import { LoaderProvider } from "../../providers/loader/loader";
 
 /**
  * Generated class for the LoginPage page.
@@ -21,15 +22,19 @@ export class LoginPage {
     password: "",
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private loader: LoaderProvider
+  ) {}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad LoginPage");
   }
 
-  login() {
-    console.log("login");
-    firebase
+  async login() {
+    this.loader.show();
+    await firebase
       .auth()
       .signInWithEmailAndPassword(this.account.email, this.account.password)
       .then((result) => {
@@ -45,6 +50,7 @@ export class LoginPage {
           errorMessage
         );
       });
+    this.loader.hide();
   }
   signup() {
     this.navCtrl.push(SignupPage);
