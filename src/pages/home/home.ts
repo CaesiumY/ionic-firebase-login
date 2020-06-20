@@ -7,10 +7,28 @@ import * as firebase from "firebase";
   templateUrl: "home.html",
 })
 export class HomePage {
+  private username: any;
+  private userEmail: any;
+  private userId: any;
+
   constructor(
     public navCtrl: NavController,
     private alerCtrl: AlertController
-  ) {}
+  ) {
+    this.initPage();
+  }
+
+  initPage() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+      console.log("HomePage -> initPage -> user", user);
+      this.username = user.displayName;
+      this.userEmail = user.email;
+      this.userId = user.uid;
+    } else {
+    }
+  }
 
   logout() {
     let confirm = this.alerCtrl.create({
